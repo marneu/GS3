@@ -412,7 +412,22 @@ h1 {
 	line-height: 1.4em;
 }
 
-
+#content dl.text {
+	margin-top: -10px;
+}
+#content dt.text {
+    float: left;
+    width: 180px;
+    text-align: right;
+    font-weight: bold;
+    color: green;
+  }
+#content dt.text:after {
+    content: ":";
+  }
+#content dd.text {
+    margin-left: 190px;
+  }
 
 .sidebar {
 	width: 170px;
