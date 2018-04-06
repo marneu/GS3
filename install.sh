@@ -50,6 +50,11 @@ GEMEINSCHAFT_SOUNDS_DE_WAV_TGZ_IN_TGZ_DIR="misc/voiceprompts"
 ASTERISK_SOUNDS_DE_ALAW_TGZ_IN_TGZ_DIR="misc/voiceprompts"
 # File: ${ASTERISK_SOUNDS_DE_ALAW_TGZ_IN_TGZ_DIR}/asterisk-core-sounds-de-alaw.tar.gz
 
+ASTERISK_VERSION="http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-1.8-current.tar.gz"
+if ( ! curl -o /dev/null --output /dev/null --silent --head --fail "${ASTERISK_VERSION}" ); then
+	ASTERISK_VERSION="https://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-1.8.32.3.tar.gz"
+fi
+
 # language
 L2=`echo $LANG | head -c 2 | tr 'A-Z' 'a-z'`
 if [ -z $L2 ]; then L2='xx'; fi
@@ -101,6 +106,14 @@ then
 		err "  Ihr Debian ist nicht Version 8 (\"Jessie\").\n" 
 	else
 		err "  Your Debian is not version 8 (\"Jessie\").\n" 
+	fi
+fi
+
+if ( ! curl -o /dev/null --output /dev/null --silent --head --fail "${ASTERISK_VERSION}" ); then
+	if [ "$L2" == "de" ]; then
+		err "  Astersik Version ${ASTERISK_VERSION} nicht verfügbar, Installation kann nicht beendet werden.\n"
+	else
+		err "  Astersik Version ${ASTERISK_VERSION} not available, can not complete installation.\n"
 	fi
 fi
 
