@@ -128,6 +128,15 @@ if ( which asterisk 1>>/dev/null 2>>/dev/null ); then
 	fi
 fi
 
+if ( ! curl -o /dev/null --output /dev/null --silent --head --fail "${ASTERISK_VERSION}" ); then
+	if [ "$L2" == "de" ]; then
+		err "  Asterisk Version ${ASTERISK_VERSION}\n" \
+			"  nicht verfügbar, Installation kann nicht beendet werden."
+	else
+		err "  Asterisk Version ${ASTERISK_VERSION}\n" \
+			"  not available, can not complete installation."
+ 	fi
+fi
 
 # setup basic stuff
 #
