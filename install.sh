@@ -50,6 +50,11 @@ GEMEINSCHAFT_SOUNDS_DE_WAV_TGZ_IN_TGZ_DIR="misc/voiceprompts"
 ASTERISK_SOUNDS_DE_ALAW_TGZ_IN_TGZ_DIR="misc/voiceprompts"
 # File: ${ASTERISK_SOUNDS_DE_ALAW_TGZ_IN_TGZ_DIR}/asterisk-core-sounds-de-alaw.tar.gz
 
+ASTERISK_VERSION="http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-1.8-current.tar.gz"
+if ( ! curl -o /dev/null --output /dev/null --silent --head --fail "${ASTERISK_VERSION}" ); then
+	ASTERISK_VERSION="https://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-1.8.32.3.tar.gz"
+fi
+
 # language
 L2=`echo $LANG | head -c 2 | tr 'A-Z' 'a-z'`
 if [ -z $L2 ]; then L2='xx'; fi
@@ -320,9 +325,10 @@ make config
 dahdi_genconf || true
 
 cd /usr/local/src/
-$DOWNLOAD "http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-1.8-current.tar.gz"
-tar -xvzf asterisk-1.8-current.tar.gz
-cd $(tar -tzf asterisk-1.8-current.tar.gz | head -n 1 | cut -d '/' -f1)
+$DOWNLOAD "${ASTERISK_VERSION}"
+ASTERISK_FILE=${ASTERISK_VERSION##*/}
+tar -xvzf ${ASTERISK_FILE}
+cd $(tar -tzf ${ASTERISK_FILE} | head -n 1 | cut -d '/' -f1)
 ./configure
 make menuselect.makeopts
 menuselect/menuselect --enable res_config_mysql menuselect.makeopts
